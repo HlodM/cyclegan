@@ -79,7 +79,6 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
                 fake_paints_d = disc_paint(fake_paints.detach())
                 loss_fake_paints_d = mse(fake_paints_d.detach(), torch.zeros_like(fake_paints_d))
                 buffer_fake_paints[:len(paints)] = [torch.unsqueeze(el, 0) for el in fake_paints.detach().clone()]
-            # loss_fake_paints_d = mse(fake_paints_d, torch.zeros_like(fake_paints_d))
 
             loss_disc_paints = (loss_paints_d + loss_fake_paints_d) / 2
             loss_disc_paints.backward()
@@ -103,7 +102,6 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
                 fake_photos_d = disc_photo(fake_photos.detach())
                 loss_fake_photos_d = mse(fake_photos_d, torch.zeros_like(fake_photos_d))
                 buffer_fake_photos[:len(photos)] = [torch.unsqueeze(el, 0) for el in fake_photos]
-            # loss_fake_photos_d = mse(fake_photos_d, torch.zeros_like(fake_photos_d))
 
             loss_disc_photos = (loss_photos_d + loss_fake_photos_d) / 2
             loss_disc_photos.backward()
