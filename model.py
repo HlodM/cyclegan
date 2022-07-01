@@ -1,5 +1,5 @@
-import torch
 import torch.nn as nn
+import train_params
 
 
 class Generator(nn.Module):
@@ -48,7 +48,7 @@ class Generator(nn.Module):
 
     def forward(self, x):
         x = self.first(x)
-        for _ in range(6):
+        for _ in range(train_params.res_blocks_num):
             x = x + self.residual(x)
         x = self.last(x)
 
@@ -71,10 +71,10 @@ class Discriminator(nn.Module):
             nn.InstanceNorm2d(256),
             nn.LeakyReLU(0.2, inplace=True),
 
-            nn.Conv2d(256, 512, kernel_size=4, stride=2, padding=1),
+            nn.Conv2d(256, 512, kernel_size=4, stride=1, padding=2),
             nn.InstanceNorm2d(512),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.ZeroPad2d((1, 0, 1, 0)),
+
             nn.Conv2d(512, 1, kernel_size=4, stride=1, padding=1)
         )
 
@@ -91,9 +91,3 @@ def weights_init(m):
     elif classname.find('BatchNorm') != -1:
         nn.init.normal_(m.weight.data, 1.0, 0.02)
         nn.init.constant_(m.bias.data, 0)
-
-
-def seed_everything(seed=42):
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
