@@ -161,18 +161,14 @@ def main():
     l1 = train_params.l1
     mse = train_params.mse
 
-    gen_photo = Generator()
-    gen_paint = Generator()
-    disc_photo = Discriminator()
-    disc_paint = Discriminator()
-
     device = train_params.device
     print(device)
 
-    gen_photo = gen_photo.to(device)
-    gen_paint = gen_paint.to(device)
-    disc_photo = disc_photo.to(device)
-    disc_paint = disc_paint.to(device)
+    gen_photo = Generator().to(device)
+    gen_paint = Generator().to(device)
+    disc_photo = Discriminator().to(device)
+    disc_paint = Discriminator().to(device)
+
     l1 = l1.to(device)
     mse = mse.to(device)
 
