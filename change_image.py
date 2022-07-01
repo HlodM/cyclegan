@@ -20,6 +20,9 @@ net.load_state_dict(torch.load(path, map_location=device), strict=True)
 net.eval()
 net.to(device)
 
+if not os.path.exists(f"{dir_to_save}/images/"):
+    os.mkdir(f"{dir_to_save}/images")
+
 
 def denorm(img_tensor):
     return img_tensor * stats[1][0] + stats[0][0]
@@ -28,8 +31,6 @@ def denorm(img_tensor):
 def change_image(image, root=f"{dir_to_save}/gen_photo.pth"):
     gen_paint.load_state_dict(torch.load(root, map_location=device))
     photo = denorm(gen_paint(transform(image))).detach().cpu()
-    if not os.path.exists(f"{dir_to_save}/images/"):
-        os.mkdir(f"{dir_to_save}/images")
     save_path = f"{dir_to_save}/images/image.jpg"
     save_image(photo, save_path)
     with open(f"{dir_to_save}/images/image.jpg", 'rb') as changed:
