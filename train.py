@@ -185,7 +185,7 @@ def main():
         disc_photo.apply(weights_init)
         disc_paint.apply(weights_init)
 
-    optim_gen = torch.optim.Adam(gen_photo.parameters(), lr=lr, betas=(0.5, 0.999))
+    optim_gen = torch.optim.Adam(list(gen_photo.parameters()) + list(gen_paint.parameters()), lr=lr, betas=(0.5, 0.999))
     optim_disc_photos = torch.optim.Adam(disc_photo.parameters(), lr=lr, betas=(0.5, 0.999))
     optim_disc_paints = torch.optim.Adam(disc_paint.parameters(), lr=lr, betas=(0.5, 0.999))
 
