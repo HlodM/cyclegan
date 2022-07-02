@@ -19,8 +19,8 @@ image_size = 128. Как опцию увеличения разрешения п
 Но промежуточные результаты уже видны:
 
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image.jpg?raw=true)
-
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/image.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/sr_image.jpg?raw=true)
 
 
 
