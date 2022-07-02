@@ -2,6 +2,8 @@ import os
 import numpy as np
 import torch
 from torchvision.utils import save_image
+from torchvision import transforms as tt
+from PIL import Image
 import cv2
 from model import Generator
 from esrgan import RRDBNet
@@ -28,14 +30,19 @@ def denorm(img_tensor):
     return img_tensor * stats[1][0] + stats[0][0]
 
 
-def change_image(image, root=f"{dir_to_save}/gen_photo.pth"):
+def change_image(image, root=f"{dir_to_save}/gen_photo.pth", show=False):
     gen_paint.load_state_dict(torch.load(root, map_location=device))
     photo = denorm(gen_paint(transform(image))).detach().cpu()
-    save_path = f"{dir_to_save}/images/image.jpg"
-    save_image(photo, save_path)
-    with open(f"{dir_to_save}/images/image.jpg", 'rb') as changed:
-        res = changed.read()
-    return res, save_path
+    if show:
+        tr = tt.ToPILImage()
+        img = tr(photo)
+        img.show()
+    else:
+        save_path = f"{dir_to_save}/images/image.jpg"
+        save_image(photo, save_path)
+        with open(f"{dir_to_save}/images/image.jpg", 'rb') as changed:
+            res = changed.read()
+        return res, save_path
 
 
 def sr_image(save_path):
@@ -56,3 +63,8 @@ def sr_image(save_path):
         res = p.read()
 
     return res
+
+
+if __name__ == '__main__':
+    test_image = Image.open(train_params.image_path)
+    change_image(test_image, show=True)
