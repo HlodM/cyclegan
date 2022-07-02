@@ -108,7 +108,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
             optim_disc_photos.step()
             loss_d_per_epoch_photo.append(loss_disc_photos.item())
 
-        # Record losses & scores
+        # Record losses
         losses_gen.append(np.mean(loss_g_per_epoch))
         losses_disc_photo.append(np.mean(loss_d_per_epoch_photo))
         losses_disc_paint.append(np.mean(loss_d_per_epoch_paint))
