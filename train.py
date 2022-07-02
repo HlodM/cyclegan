@@ -70,7 +70,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
 
             fake_paints = gen_paint(photos)
             fake_paints_d = disc_paint(fake_paints)
-            if len(buffer_fake_paints) < 50:
+            if len(buffer_fake_paints) < train_params.buffer_size:
                 buffer_fake_paints.extend([torch.unsqueeze(el, 0) for el in fake_paints.detach().clone()])
                 loss_fake_paints_d = mse(fake_paints_d.detach(), torch.zeros_like(fake_paints_d))
             else:
@@ -93,7 +93,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
 
             fake_photos = gen_photo(paints)
             fake_photos_d = disc_photo(fake_photos)
-            if len(buffer_fake_photos) < 50:
+            if len(buffer_fake_photos) < train_params.buffer_size:
                 buffer_fake_photos.extend([torch.unsqueeze(el, 0) for el in fake_photos])
                 loss_fake_photos_d = mse(fake_photos_d, torch.zeros_like(fake_photos_d))
             else:
@@ -136,7 +136,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
     return losses_gen, losses_disc_photo, losses_disc_paint
 
 
-def seed_everything(seed=42):
+def seed_everything(seed=train_params.seed):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
