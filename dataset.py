@@ -6,8 +6,8 @@ from torch.utils.data import Dataset
 class ImageDataset(Dataset):
     def __init__(self, dir_photos, dir_paints, transform=None):
         self.transform = transform
-        self.photos = sorted(glob.glob(dir_photos + '/*.*'))
-        self.paints = sorted(glob.glob(dir_paints + '/*.*'))
+        self.photos = glob.glob(dir_photos + '/*.*')
+        self.paints = glob.glob(dir_paints + '/*.*')
 
     def __getitem__(self, index):
         if self.transform is not None:
