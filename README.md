@@ -20,7 +20,6 @@ image_size = 128. Как опцию увеличения разрешения п
 
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image.jpg?raw=true)
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/image.jpg?raw=true)
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/sr_image.jpg?raw=true)
 
 
 
