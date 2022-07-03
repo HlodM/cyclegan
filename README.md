@@ -18,9 +18,10 @@ image_size = 128. Как опцию увеличения разрешения п
 На момент коммита, веса cyclegan получены где-то для 40 эпох.
 Но промежуточные результаты уже видны:
 
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image.jpg?raw=true)
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/image.jpg?raw=true)
-
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image1.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image1.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image4.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image4.jpg?raw=true)
 
 
 статься: https://arxiv.o
