@@ -2,7 +2,6 @@ import os
 import numpy as np
 import torch
 from torchvision.utils import save_image
-from torchvision import transforms as tt
 from PIL import Image
 import cv2
 from model import Generator
@@ -30,23 +29,16 @@ def denorm(img_tensor):
     return img_tensor * stats[1][0] + stats[0][0]
 
 
-def change_image(image, root=f"{dir_to_save}/gen_photo.pth", show=False):
+def change_image(image, root=f"{dir_to_save}/gen_photo.pth", save_path=f"{dir_to_save}/images/vg_image.jpg"):
     gen_paint.load_state_dict(torch.load(root, map_location=device))
     photo = denorm(gen_paint(transform(image))).detach().cpu()
-    if show:
-        tr = tt.ToPILImage()
-        img = tr(photo)
-        img.show()
-    else:
-        save_path = f"{dir_to_save}/images/image.jpg"
-        save_image(photo, save_path)
-        with open(f"{dir_to_save}/images/image.jpg", 'rb') as changed:
-            res = changed.read()
-        return res, save_path
+    save_image(photo, save_path)
+
+    return save_path
 
 
-def sr_image(save_path):
-    img = cv2.imread(save_path, cv2.IMREAD_COLOR)
+def sr_image(in_path, out_path=f"{train_params.dir_to_save}/images/sr_image.jpg"):
+    img = cv2.imread(in_path, cv2.IMREAD_COLOR)
     img = img * 1.0 / 255
     img = torch.from_numpy(np.transpose(img[:, :, [2, 1, 0]], (2, 0, 1))).float()
     img_lr = img.unsqueeze(0)
@@ -57,14 +49,15 @@ def sr_image(save_path):
 
     output = np.transpose(output[[2, 1, 0], :, :], (1, 2, 0))
     output = (output * 255.0).round()
-    cv2.imwrite(f"{train_params.dir_to_save}/images/sr_image.jpg", output)
+    cv2.imwrite(out_path, output)
 
-    with open(f"{train_params.dir_to_save}/images/sr_image.jpg", 'rb') as p:
-        res = p.read()
-
-    return res
+    return out_path
 
 
 if __name__ == '__main__':
     test_image = Image.open(train_params.image_path)
-    change_image(test_image, show=True)
+    im_path = change_image(test_image)
+    if train_params.sr:
+        im_path = sr_image(im_path)
+    out = Image.open(im_path)
+    out.show()
