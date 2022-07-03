@@ -4,10 +4,12 @@ from telebot import types
 from PIL import Image
 from change_image import change_image, sr_image
 import train_params
+import io
 
 
 bot = telebot.TeleBot(train_params.TOKEN)
 dir_to_save = train_params.dir_to_save
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -25,13 +27,14 @@ def get_user_photo(message):
         os.mkdir(f"{dir_to_save}/images")
     with open(f"{train_params.dir_to_save}/images/bot_image.jpg", "wb") as file:
         file.write(downloaded_file)
-    photo = Image.open(f"{train_params.dir_to_save}/images/bot_image.jpg")
-    if len(photo.getbands()) !=3:
+    photo = Image.open(io.BytesIO(downloaded_file))
+    if len(photo.getbands()) != 3:
         bot.send_message(message.chat.id, 'incorrect image channels number, must be 3 (RGB)')
     else:
-        photo, save_path = change_image(photo)
+        im_path = change_image(photo)
         if train_params.sr:
-            photo = sr_image(save_path)
+            im_path = sr_image(im_path)
+        photo = Image.open(im_path)
         bot.send_photo(message.chat.id, photo)
         bot.send_message(message.chat.id, 'want to do the same or better - send "/website" message')
 
@@ -51,6 +54,15 @@ def commands_list(message):
     bot.send_message(message.chat.id, '/start')
     bot.send_message(message.chat.id, '/website')
     bot.send_message(message.chat.id, '/help')
+
+
+# @bot.message_handler(content_types=['text'])
+# def get_user_text(message):
+#     bot.send_message(message.chat.id, 'this bot can make photo in Vangogh style. Just send one to try')
+#     bot.send_message(message.chat.id, 'available commands:')
+#     bot.send_message(message.chat.id, '/start')
+#     bot.send_message(message.chat.id, '/website')
+#     bot.send_message(message.chat.id, '/help')
 
 
 bot.polling(none_stop=True)
