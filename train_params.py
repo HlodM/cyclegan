@@ -47,7 +47,7 @@ if not os.path.exists(dir_to_save):
     os.mkdir(dir_to_save)
 
 # path to generator and esrgan
-gen_path = f"{dir_to_save}/gen_photo.pth"
+gen_path = f"{dir_to_save}/gen_paint.pth"
 esrgan_path = f"{dir_to_save}/RRDB_PSNR_x4.pth"
 
 # paths to save vangogh styled image, super resolution and initial
