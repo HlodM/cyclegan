@@ -1,5 +1,5 @@
 https://t.me/dlsgantestbot - адрес бота бля теста. после отправки 
-изображения, бот стилизует его под картины Ван Гога.
+изображения бот стилизует его под картины Ван Гога.
 
 Предполагается, что бот будет хоститься на моем компе. Но, так как
 вероятность совпасть по времени не высокая, то в качестве варианта для проверки 
@@ -18,19 +18,13 @@ image_size = 128. Как опцию увеличения разрешения п
 На момент коммита, веса cyclegan получены где-то для 40 эпох.
 Но промежуточные результаты уже видны:
 
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image3.jpg?raw=true)
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image3.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image1.jpg?raw=true)
+![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image1.jpg?raw=true)
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image2.jpg?raw=true)
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image2.jpg?raw=true)
-
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image3.jpg?raw=true)
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image3.jpg?raw=true)
-
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image4.jpg?raw=true)
 ![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image4.jpg?raw=true)
 
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/bot_image5.jpg?raw=true)
-![alt text](https://github.com/HlodM/cyclegan/blob/main/weights/images/vg_image5.jpg?raw=true)
-
-
-статься: https://arxiv.org/abs/1703.10593
+статья: https://arxiv.org/abs/1703.10593
