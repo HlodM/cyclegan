@@ -10,7 +10,7 @@ from dataset import ImageDataset
 
 
 def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, optim_disc_photos, optim_disc_paints, l1,
-          mse, epochs, decay, lr, lambda_cycle, lambda_ident, device, dir_to_save, checkpoints):
+          mse, epochs, decay, lr, lambda_cycle, lambda_ident, buffer_size, device, dir_to_save, checkpoints):
 
     # Losses
     losses_gen = []
@@ -70,7 +70,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
 
             fake_paints = gen_paint(photos)
             fake_paints_d = disc_paint(fake_paints)
-            if len(buffer_fake_paints) < train_params.buffer_size:
+            if len(buffer_fake_paints) < buffer_size:
                 buffer_fake_paints.extend([torch.unsqueeze(el, 0) for el in fake_paints.detach().clone()])
                 loss_fake_paints_d = mse(fake_paints_d.detach(), torch.zeros_like(fake_paints_d))
             else:
@@ -93,7 +93,7 @@ def train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, opt
 
             fake_photos = gen_photo(paints)
             fake_photos_d = disc_photo(fake_photos)
-            if len(buffer_fake_photos) < train_params.buffer_size:
+            if len(buffer_fake_photos) < buffer_size:
                 buffer_fake_photos.extend([torch.unsqueeze(el, 0) for el in fake_photos])
                 loss_fake_photos_d = mse(fake_photos_d, torch.zeros_like(fake_photos_d))
             else:
@@ -179,7 +179,7 @@ def main():
 
     history = train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, optim_disc_photos,
                     optim_disc_paints, l1, mse, train_params.epochs, train_params.decay, lr, train_params.lambda_cycle,
-                    train_params.lambda_ident, device, dir_to_save, train_params.checkpoints)
+                    train_params.lambda_ident, train_params.buffer_size, device, dir_to_save, train_params.checkpoints)
 
 
 if __name__ == '__main__':
