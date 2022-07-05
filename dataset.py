@@ -20,5 +20,4 @@ class ImageDataset(Dataset):
         return photo, paint
 
     def __len__(self):
-        return 5
-        # return max(len(self.photos), len(self.paints))
+        return max(len(self.photos), len(self.paints))
