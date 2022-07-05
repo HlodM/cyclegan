@@ -146,21 +146,8 @@ def seed_everything(seed=train_params.seed):
 
 def main():
     seed_everything()
-    batch_size = train_params.batch_size
     lr = train_params.lr
-    epochs = train_params.epochs
-    decay = train_params.decay
-
-    lambda_cycle = train_params.lambda_cycle
-    lambda_ident = train_params.lambda_ident
-
-    paint_dir = train_params.paint_dir
-    photo_dir = train_params.photo_dir
     dir_to_save = train_params.dir_to_save
-
-    l1 = train_params.l1
-    mse = train_params.mse
-
     device = train_params.device
     print(device)
 
@@ -169,10 +156,8 @@ def main():
     disc_photo = Discriminator().to(device)
     disc_paint = Discriminator().to(device)
 
-    l1 = l1.to(device)
-    mse = mse.to(device)
-
-    checkpoints = train_params.checkpoints
+    l1 = train_params.l1.to(device)
+    mse = train_params.mse.to(device)
 
     if train_params.load_model:
         gen_photo.load_state_dict(torch.load(f"{dir_to_save}/gen_photo.pth", map_location=device))
@@ -189,12 +174,12 @@ def main():
     optim_disc_photos = torch.optim.Adam(disc_photo.parameters(), lr=lr, betas=(0.5, 0.999))
     optim_disc_paints = torch.optim.Adam(disc_paint.parameters(), lr=lr, betas=(0.5, 0.999))
 
-    dataset = ImageDataset(paint_dir, photo_dir, transform=train_params.transform)
-    train_dl = DataLoader(dataset, batch_size, shuffle=True, num_workers=2, pin_memory=True)
+    dataset = ImageDataset(train_params.photo_dir, train_params.paint_dir, transform=train_params.transform)
+    train_dl = DataLoader(dataset, train_params.batch_size, shuffle=True, num_workers=2, pin_memory=True)
 
     history = train(train_dl, gen_photo, gen_paint, disc_photo, disc_paint, optim_gen, optim_disc_photos,
-                    optim_disc_paints, l1, mse, epochs, decay, lr, lambda_cycle, lambda_ident, device, dir_to_save,
-                    checkpoints)
+                    optim_disc_paints, l1, mse, train_params.epochs, train_params.decay, lr, train_params.lambda_cycle,
+                    train_params.lambda_ident, device, dir_to_save, train_params.checkpoints)
 
 
 if __name__ == '__main__':

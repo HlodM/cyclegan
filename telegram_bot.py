@@ -25,16 +25,17 @@ def get_user_photo(message):
     downloaded_file = bot.download_file(file_info.file_path)
     if not os.path.exists(f"{dir_to_save}/images/"):
         os.mkdir(f"{dir_to_save}/images")
-    with open(f"{train_params.dir_to_save}/images/bot_image.jpg", "wb") as file:
+    with open(train_params.bot_path, "wb") as file:
         file.write(downloaded_file)
     photo = Image.open(io.BytesIO(downloaded_file))
     if len(photo.getbands()) != 3:
         bot.send_message(message.chat.id, 'incorrect image channels number, must be 3 (RGB)')
     else:
-        im_path = change_image(photo)
+        change_image(photo)
+        photo = Image.open(train_params.vg_path)
         if train_params.sr:
-            im_path = sr_image(im_path)
-        photo = Image.open(im_path)
+            sr_image(train_params.vg_path)
+            photo = Image.open(train_params.sr_path)
         bot.send_photo(message.chat.id, photo)
         bot.send_message(message.chat.id, 'want to do the same or better - send "/website" message')
 
